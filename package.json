@@ -29,7 +29,7 @@
   "version": "1.0.0",
   "description": "Crypto coin tipbot for Discord",
   "main": "bot/bot.js",
-  "repository": "https://github.com/MSFTserver/TipBot",
-  "author": "MSFTserver <MSFTserver@gmail.com>",
+  "repository": "https://github.com/ChisdealHDYT/TipBot-UPDATED-2021",
+  "author": "ChisdealHDYT",
   "license": "MIT"
 }
