@@ -95,13 +95,6 @@ echo if the process finishes before time-
 echo is up you can press any key to continue
 timeout /t 60
 echo ___________________________________________________
-echo installing yarn!
-start npm install yarn -g
-echo continuing in 60 seconds
-echo if the process finishes before time-
-echo is up you can press any key to continue
-timeout /t 60
-echo ___________________________________________________
 echo installing pm2!
 start npm install pm2 -g
 echo continuing in 60 seconds
