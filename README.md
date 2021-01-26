@@ -100,9 +100,8 @@ https://discordapp.com/oauth2/authorize?client_id=INSERT_CLIENT_ID_HERE&scope=bo
       * node - `node -v`
         * npm - `npm -v`
           * pm2 - `pm2 -v`
-          * yarn - `yarn --version`
 
-3) start the bot with `yarn start` or `pm2 start ecosystem.config.js` in the bots root directory
+3) start the bot with `node bot/bot.js` or `pm2 start ecosystem.config.js` in the bots root directory
 
     1) if the bot fails to start and throws missing npm package errors simply run `npm install` again in the bots root directory
 
@@ -113,24 +112,9 @@ https://discordapp.com/oauth2/authorize?client_id=INSERT_CLIENT_ID_HERE&scope=bo
       * [node > 8.0.0](https://nodejs.org/en/)
         * [npm > 0.12.x](https://nodejs.org/en/)
           * [pm2 > latest](http://pm2.keymetrics.io/)
-          * [yarn > latest](https://yarnpkg.com/en/docs/install)
 
 2) After the above tools have been installed run `npm install` in the bots root directory.
 
     1) this may throw some errors on some systems not all packages are required for some systems, the bot will still run unless it's an absolutely needed dependency.
 
-3) start the bot with `yarn start` or `pm2 start ecosystem.config.js` in the bots root directory
-
-### Development
-
-Be sure to run the command below before working on any code, this ensures
-prettier goes to work and keeps the code to our standard.
-
-```
-yarn install --production=false
-```
-to run prettier before submitting your code simply run the following in the bots root directory.
-
-```
-yarn precommit
-```
+3) start the bot with `node bot/bot.js` or `pm2 start ecosystem.config.js` in the bots root directory
