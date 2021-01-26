@@ -17,6 +17,9 @@ Features:
     - Neblio (NEBL)
     - Xuez (XUEZ)
     - SparksPay (SPK)
+    - Flits (FLS)
+    - Zenzo (ZNZ)
+    - Pivx (PIVX)
 
 
 ## Create a Bot
