@@ -93,6 +93,30 @@
       "pass": "Do-Not-Use-This-Password-Youll-Be-Hacked-For-all-Teh-Moneys!"
     }
   },
+  "fls": {
+    "paytxfee": .01,
+    "config": {
+      "port": 3346,
+      "user": "username",
+      "pass": "Do-Not-Use-This-Password-Youll-Be-Hacked-For-all-Teh-Moneys!"
+    }
+  },
+  "pivx": {
+    "paytxfee": .01,
+    "config": {
+      "port": 3347,
+      "user": "username",
+      "pass": "Do-Not-Use-This-Password-Youll-Be-Hacked-For-all-Teh-Moneys!"
+    }
+  },
+  "zenzo": {
+    "paytxfee": .01,
+    "config": {
+      "port": 3348,
+      "user": "username",
+      "pass": "Do-Not-Use-This-Password-Youll-Be-Hacked-For-all-Teh-Moneys!"
+    }
+  },
   "spk": {
     "paytxfee": .01,
     "config": {
