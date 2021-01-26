@@ -12,6 +12,9 @@ let neblioFee = config.get('nebl').paytxfee;
 let xuezFee = config.get('xuez').paytxfee;
 let spkFee = config.get('spk').paytxfee;
 let ppcFee = config.get('ppc').paytxfee;
+let zenzoFee = config.get('zenzo').paytxfee;
+let flsFee = config.get('fls').paytxfee;
+let pivxFee = config.get('pivx').paytxfee;
 let prefix = config.get('bot').prefix;
 exports.commands = ['tiphelp'];
 exports.tiphelp = {
@@ -31,7 +34,10 @@ exports.tiphelp = {
       '  **Neblio (NEBL) Tipper**\n    Transaction Fees: **' + neblioFee + '**\n' +
       '  **Xuez (XUEZ) Tipper**\n    Transaction Fees: **' + xuezFee + '**\n' +
       '  **SparksPay (SPK) Tipper**\n    Transaction Fees: **' + spkFee + '**\n' +      
-      '  **Peercoin (PPC) Tipper**\n    Transaction Fees: **' + ppcFee + '**\n' +         
+      '  **Peercoin (PPC) Tipper**\n    Transaction Fees: **' + ppcFee + '**\n' +
+      '  **Zenzo (ZNZ) Tipper**\n    Transaction Fees: **' + zenzoFee + '**\n' + 
+      '  **Flits (FLS) Tipper**\n    Transaction Fees: **' + flsFee + '**\n' + 
+      '  **Pivx (PIVX) Tipper**\n    Transaction Fees: **' + pivxFee + '**\n' + 
       '__**Commands**__\n' +
       '  **' + prefix + 'tip<CoinSymbol>** : Displays This Message\n' +
       '  **' + prefix + 'tip<CoinSymbol> balance** : get your balance\n' +
