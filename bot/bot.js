@@ -39,10 +39,10 @@ bot.on('ready', function() {
       '] ' +
       bot.user.username +
       'Logged in! Serving in ' +
-      bot.guilds.array().length +
+      bot.guilds.cache.size +
       ' servers'
   );
-  bot.channels
+  bot.channels.cache
     .get(logChannel)
     .send(
       '[' +
@@ -52,7 +52,7 @@ bot.on('ready', function() {
         '] ' +
         bot.user.username +
         'Logged in! Serving in ' +
-        bot.guilds.array().length +
+        bot.guilds.cache.size +
         ' servers'
     );
   require('./plugins.js').init();
@@ -65,7 +65,7 @@ bot.on('ready', function() {
       config.prefix +
       'tiphelp in Discord for a commands list.'
   );
-  bot.channels
+  bot.channels.cache
     .get(logChannel)
     .send(
       '[' +
@@ -77,7 +77,8 @@ bot.on('ready', function() {
         'tiphelp in Discord for a commands list.'
     );
   bot.user.setActivity(config.prefix + 'Intialized!');
-  var text = ['tiprvn', 'tipdoge', 'tiplbc', 'tipufo', 'tipppc','tipphase', 'tippxc', 'tipftc', 'tipvtl', 'tipnebl', 'tipxuez', 'tipspk', 'tiphelp'];
+  //var text = ['tipznz', 'tipbtc', 'tipfls', 'tippivx', 'tiphelp'];
+  var text = ['tipznz', 'tippivx', 'tipfls', 'tiprvn', 'tipdoge', 'tiplbc', 'tipufo', 'tipppc','tipphase', 'tippxc', 'tipftc', 'tipvtl', 'tipnebl', 'tipxuez', 'tipspk', 'tiphelp'];
   var counter = 0;
   setInterval(change, 10000);
 
@@ -95,9 +96,7 @@ process.on('uncaughtException', err => {
     .tz('America/Los_Angeles')
     .format('MM-DD-YYYY hh:mm a');
   console.log('[' + time + ' PST][' + pm2Name + '] uncaughtException: ' + err);
-  bot.channels
-    .get(logChannel)
-    .send('[' + time + ' PST][' + pm2Name + '] uncaughtException: ' + err);
+  bot.channels.cache.get(logChannel).send('[' + time + ' PST][' + pm2Name + '] uncaughtException: ' + err);
   process.exit(1); //exit node.js with an error
 });
 
@@ -106,9 +105,7 @@ process.on('unhandledRejection', err => {
     .tz('America/Los_Angeles')
     .format('MM-DD-YYYY hh:mm a');
   console.log('[' + time + ' PST][' + pm2Name + '] unhandledRejection: ' + err);
-  bot.channels
-    .get(logChannel)
-    .send('[' + time + ' PST][' + pm2Name + '] unhandledRejection: ' + err);
+  bot.channels.cache.get(logChannel).send('[' + time + ' PST][' + pm2Name + '] unhandledRejection: ' + err);
   process.exit(1); //exit node.js with an error
 });
 
@@ -157,7 +154,7 @@ function checkMessageForCommand(msg, isEdit) {
     var suffix = msg.content.substring(
       cmdTxt.length + config.prefix.length + 1
     ); //add one for the ! and one for the space
-    if (msg.isMentioned(bot.user)) {
+    /*if (msg.mentions.members.first()) {
       try {
         cmdTxt = msg.content.split(' ')[1];
         suffix = msg.content.substring(
@@ -168,7 +165,7 @@ function checkMessageForCommand(msg, isEdit) {
         msg.channel.send('Yes?');
         return;
       }
-    }
+    }*/
     let alias = aliases[cmdTxt];
     if (alias) {
       var cmd = commands[alias];
@@ -195,7 +192,7 @@ function checkMessageForCommand(msg, isEdit) {
         var time = moment()
           .tz('America/Los_Angeles')
           .format('MM-DD-YYYY hh:mm a');
-        bot.channels
+        bot.channels.cache
           .get(logChannel)
           .send('[' + time + ' PST][' + pm2Name + '] ' + msgTxt + linebreak);
       }
@@ -207,10 +204,10 @@ function checkMessageForCommand(msg, isEdit) {
       return;
     }
 
-    if (msg.author != bot.user && msg.isMentioned(bot.user)) {
+    /*if (msg.author != bot.user) {
       msg.channel.send('yes?'); //using a mention here can lead to looping
     } else {
-    }
+    }*/
   }
 }
 
@@ -224,7 +221,7 @@ exports.addCommand = function(commandName, commandObject) {
       .tz('America/Los_Angeles')
       .format('MM-DD-YYYY hh:mm a');
     console.log('[' + time + ' PST][' + pm2Name + '] Error addCommand: ' + err);
-    bot.channels
+    bot.channels.cache
       .get(logChannel)
       .send('[' + time + ' PST][' + pm2Name + '] Error addCommand: ' + err);
   }
@@ -239,7 +236,7 @@ exports.addCustomFunc = function(customFunc) {
     console.log(
       '[' + time + ' PST][' + pm2Name + '] Error addCustomFunc: ' + err
     );
-    bot.channels
+    bot.channels.cache
       .get(logChannel)
       .send('[' + time + ' PST][' + pm2Name + '] Error addCustomFunc: ' + err);
   }
