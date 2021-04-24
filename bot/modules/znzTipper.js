@@ -7,13 +7,14 @@ let Regex = require('regex'),
   spamchannels = config.get('moderation').botspamchannels;
 let walletConfig = config.get('zenzo').config;
 let paytxfee = config.get('zenzo').paytxfee;
+let prefix = config.get('bot').prefix;
 const pxc = new bitcoin.Client(walletConfig);
 
 exports.commands = ['tipznz'];
 exports.tipznz = {
   usage: '<subcommand>',
   description:
-    '__**Zenzo (ZNZ) Tipper**__\nTransaction Fees: **' + paytxfee + '**\n    **!tipznz** : Displays This Message\n    **!tipznz balance** : get your balance\n    **!tipznz deposit** : get address for your deposits\n    **!tipznz withdraw <ADDRESS> <AMOUNT>** : withdraw coins to specified address\n    **!tipznz <@user> <amount>** :mention a user with @ and then the amount to tip them\n    **!tipznz private <user> <amount>** : put private before Mentioning a user to tip them privately.\n\n    has a default txfee of ' + paytxfee,
+    '__**Zenzo (ZNZ) Tipper**__\nTransaction Fees: **' + paytxfee + '**\n    **' + prefix + 'tipznz** : Displays This Message\n    **' + prefix + 'tipznz balance** : get your balance\n    **' + prefix + 'tipznz deposit** : get address for your deposits\n    **' + prefix + 'tipznz withdraw <ADDRESS> <AMOUNT>** : withdraw coins to specified address\n    **' + prefix + 'tipznz <@user> <amount>** :mention a user with @ and then the amount to tip them\n    **' + prefix + 'tipznz private <user> <amount>** : put private before Mentioning a user to tip them privately.\n\n    has a default txfee of ' + paytxfee,
   process: async function(bot, msg, suffix) {
     let tipper = msg.author.id.replace('!', ''),
       words = msg.content
@@ -24,7 +25,7 @@ exports.tipznz = {
         }),
       subcommand = words.length >= 2 ? words[1] : 'help',
       helpmsg =
-        '__**Zenzo (ZNZ) Tipper**__\nTransaction Fees: **' + paytxfee + '**\n    **!tipznz** : Displays This Message\n    **!tipznz balance** : get your balance\n    **!tipznz deposit** : get address for your deposits\n    **!tipznz withdraw <ADDRESS> <AMOUNT>** : withdraw coins to specified address\n    **!tipznz <@user> <amount>** :mention a user with @ and then the amount to tip them\n    **!tipznz private <user> <amount>** : put private before Mentioning a user to tip them privately.\n\n    **<> : Replace with appropriate value.**',
+        '__**Zenzo (ZNZ) Tipper**__\nTransaction Fees: **' + paytxfee + '**\n    **' + prefix + 'tipznz** : Displays This Message\n    **' + prefix + 'tipznz balance** : get your balance\n    **' + prefix + 'tipznz deposit** : get address for your deposits\n    **' + prefix + 'tipznz withdraw <ADDRESS> <AMOUNT>** : withdraw coins to specified address\n    **' + prefix + 'tipznz <@user> <amount>** :mention a user with @ and then the amount to tip them\n    **' + prefix + 'tipznz private <user> <amount>** : put private before Mentioning a user to tip them privately.\n\n    **<> : Replace with appropriate value.**',
       channelwarning = 'Please use <#bot-spam> or DMs to talk to bots.';
     switch (subcommand) {
       case 'help':
@@ -288,7 +289,7 @@ function sendPXC(bot, message, tipper, recipient, amount, privacyFlag) {
                 ]
               } });
                   if (
-                    message.content.startsWith('!tipznz private ')
+                    message.content.startsWith('' + prefix + 'tipznz private ')
                   ) {
                     message.delete(1000); //Supposed to delete message
                   }
