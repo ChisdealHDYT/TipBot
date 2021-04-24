@@ -7,13 +7,14 @@ let Regex = require('regex'),
   spamchannels = config.get('moderation').botspamchannels;
 let walletConfig = config.get('fls').config;
 let paytxfee = config.get('fls').paytxfee;
+let prefix = config.get('bot').prefix;
 const pxc = new bitcoin.Client(walletConfig);
 
 exports.commands = ['tipfls'];
 exports.tipfls = {
   usage: '<subcommand>',
   description:
-    '__**Flits (FLS) Tipper**__\nTransaction Fees: **' + paytxfee + '**\n    **!tipfls** : Displays This Message\n    **!tipfls balance** : get your balance\n    **!tipfls deposit** : get address for your deposits\n    **!tipfls withdraw <ADDRESS> <AMOUNT>** : withdraw coins to specified address\n    **!tipfls <@user> <amount>** :mention a user with @ and then the amount to tip them\n    **!tipfls private <user> <amount>** : put private before Mentioning a user to tip them privately.\n\n    has a default txfee of ' + paytxfee,
+    '__**Flits (FLS) Tipper**__\nTransaction Fees: **' + paytxfee + '**\n    **' + prefix + 'tipfls** : Displays This Message\n    **' + prefix + 'tipfls balance** : get your balance\n    **' + prefix + 'tipfls deposit** : get address for your deposits\n    **' + prefix + 'tipfls withdraw <ADDRESS> <AMOUNT>** : withdraw coins to specified address\n    **' + prefix + 'tipfls <@user> <amount>** :mention a user with @ and then the amount to tip them\n    **' + prefix + 'tipfls private <user> <amount>** : put private before Mentioning a user to tip them privately.\n\n    has a default txfee of ' + paytxfee,
   process: async function(bot, msg, suffix) {
     let tipper = msg.author.id.replace('!', ''),
       words = msg.content
@@ -24,7 +25,7 @@ exports.tipfls = {
         }),
       subcommand = words.length >= 2 ? words[1] : 'help',
       helpmsg =
-        '__**Flits (FLS) Tipper**__\nTransaction Fees: **' + paytxfee + '**\n    **!tipfls** : Displays This Message\n    **!tipfls balance** : get your balance\n    **!tipfls deposit** : get address for your deposits\n    **!tipfls withdraw <ADDRESS> <AMOUNT>** : withdraw coins to specified address\n    **!tipfls <@user> <amount>** :mention a user with @ and then the amount to tip them\n    **!tipfls private <user> <amount>** : put private before Mentioning a user to tip them privately.\n\n    **<> : Replace with appropriate value.**',
+        '__**Flits (FLS) Tipper**__\nTransaction Fees: **' + paytxfee + '**\n    **' + prefix + 'tipfls** : Displays This Message\n    **' + prefix + 'tipfls balance** : get your balance\n    **' + prefix + 'tipfls deposit** : get address for your deposits\n    **' + prefix + 'tipfls withdraw <ADDRESS> <AMOUNT>** : withdraw coins to specified address\n    **' + prefix + 'tipfls <@user> <amount>** :mention a user with @ and then the amount to tip them\n    **' + prefix + 'tipfls private <user> <amount>** : put private before Mentioning a user to tip them privately.\n\n    **<> : Replace with appropriate value.**',
       channelwarning = 'Please use <#bot-spam> or DMs to talk to bots.';
     switch (subcommand) {
       case 'help':
@@ -371,9 +372,9 @@ function getValidatedAmount(amount) {
 }
 
 function txLink(txId) {
-  return 'https://chainz.cryptoid.info/znz/tx.dws?' + txId;
+  return 'https://explorer.flitsnode.app/transaction/' + txId;
 }
 
 function addyLink(address) {
-  return 'https://chainz.cryptoid.info/znz/address.dws?' + address;
+  return 'https://explorer.flitsnode.app/address/' + address;
 }
