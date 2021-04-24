@@ -6,7 +6,7 @@ let lbryFee = config.get('lbc').paytxfee;
 let dashFee = config.get('dash').paytxfee;
 let zenzoFee = config.get('zenzo').paytxfee;
 let flsFee = config.get('fls').paytxfee;
-let pivxFee = config.get('pivx').paytxfee;
+let dogecFee = config.get('dogec').paytxfee;
 let prefix = config.get('bot').prefix;
 exports.commands = ['tiphelp'];
 exports.tiphelp = {
@@ -21,7 +21,7 @@ exports.tiphelp = {
       '  **Dashcoin (DASH) Tipper**\n    Transaction Fees: **' + dashFee + '**\n' +
       '  **Zenzo (ZNZ) Tipper**\n    Transaction Fees: **' + zenzoFee + '**\n' + 
       '  **Flits (FLS) Tipper**\n    Transaction Fees: **' + flsFee + '**\n' + 
-      '  **Pivx (PIVX) Tipper**\n    Transaction Fees: **' + pivxFee + '**\n' + 
+      '  **Dogecoin (DOGEC) Tipper**\n    Transaction Fees: **' + dogecFee + '**\n' + 
       '__**Commands**__\n' +
       '  **' + prefix + 'tip<CoinSymbol>** : Displays This Message\n' +
       '  **' + prefix + 'tip<CoinSymbol> balance** : get your balance\n' +
