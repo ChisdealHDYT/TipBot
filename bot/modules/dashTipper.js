@@ -5,15 +5,15 @@ const bitcoin = require('bitcoin');
 let Regex = require('regex'),
   config = require('config'),
   spamchannels = config.get('moderation').botspamchannels;
-let walletConfig = config.get('ftc').config;
-let paytxfee = config.get('ftc').paytxfee;
-const ftc = new bitcoin.Client(walletConfig);
+let walletConfig = config.get('dash').config;
+let paytxfee = config.get('dash').paytxfee;
+const dash = new bitcoin.Client(walletConfig);
 
-exports.commands = ['tipftc'];
-exports.tipftc = {
+exports.commands = ['tipdash'];
+exports.tipdash = {
   usage: '<subcommand>',
   description:
-    '__**Feathercoin (FTC) Tipper**__\nTransaction Fees: **' + paytxfee + '**\n    **!tipftc** : Displays This Message\n    **!tipftc balance** : get your balance\n    **!tipftc deposit** : get address for your deposits\n    **!tipftc withdraw <ADDRESS> <AMOUNT>** : withdraw coins to specified address\n    **!tipftc <@user> <amount>** :mention a user with @ and then the amount to tip them\n    **!tipftc private <user> <amount>** : put private before Mentioning a user to tip them privately.\n\n    has a default txfee of ' + paytxfee,
+    '__**Dashcoin (DASH) Tipper**__\nTransaction Fees: **' + paytxfee + '**\n    **!tipftc** : Displays This Message\n    **!tipdash balance** : get your balance\n    **!tipdash deposit** : get address for your deposits\n    **!tipdash withdraw <ADDRESS> <AMOUNT>** : withdraw coins to specified address\n    **!tipdash <@user> <amount>** :mention a user with @ and then the amount to tip them\n    **!tipdash private <user> <amount>** : put private before Mentioning a user to tip them privately.\n\n    has a default txfee of ' + paytxfee,
   process: async function(bot, msg, suffix) {
     let tipper = msg.author.id.replace('!', ''),
       words = msg.content
@@ -24,7 +24,7 @@ exports.tipftc = {
         }),
       subcommand = words.length >= 2 ? words[1] : 'help',
       helpmsg =
-        '__**Feathercoin (FTC) Tipper**__\nTransaction Fees: **' + paytxfee + '**\n    **!tipftc** : Displays This Message\n    **!tipftc balance** : get your balance\n    **!tipftc deposit** : get address for your deposits\n    **!tipftc withdraw <ADDRESS> <AMOUNT>** : withdraw coins to specified address\n    **!tipftc <@user> <amount>** :mention a user with @ and then the amount to tip them\n    **!tipftc private <user> <amount>** : put private before Mentioning a user to tip them privately.\n\n    **<> : Replace with appropriate value.**',
+        '__**Dashcoin (DASH) Tipper**__\nTransaction Fees: **' + paytxfee + '**\n    **!tipdash** : Displays This Message\n    **!tipdash balance** : get your balance\n    **!tipdash deposit** : get address for your deposits\n    **!tipdash withdraw <ADDRESS> <AMOUNT>** : withdraw coins to specified address\n    **!tipftc <@user> <amount>** :mention a user with @ and then the amount to tip them\n    **!tipdash private <user> <amount>** : put private before Mentioning a user to tip them privately.\n\n    **<> : Replace with appropriate value.**',
       channelwarning = 'Please use <#bot-spam> or DMs to talk to bots.';
     switch (subcommand) {
       case 'help':
@@ -58,12 +58,12 @@ function doHelp(message, helpmsg) {
 }
 
 function doBalance(message, tipper) {
-  ftc.getBalance(tipper, 1, function(err, balance) {
+  dash.getBalance(tipper, 1, function(err, balance) {
     if (err) {
-      message.reply('Error getting Feathercoin (FTC) balance.').then(message => message.delete(10000));
+      message.reply('Error getting Dashcoin (DASH) balance.').then(message => message.delete(10000));
     } else {
     message.channel.send({ embed: {
-    description: '**:bank::money_with_wings::moneybag:Feathercoin (FTC) Balance!:moneybag::money_with_wings::bank:**',
+    description: '**:bank::money_with_wings::moneybag:Dashcoin (DASH) Balance!:moneybag::money_with_wings::bank:**',
     color: 1363892,
     fields: [
       {
@@ -85,10 +85,10 @@ function doBalance(message, tipper) {
 function doDeposit(message, tipper) {
   getAddress(tipper, function(err, address) {
     if (err) {
-      message.reply('Error getting your Feathercoin (FTC) deposit address.').then(message => message.delete(10000));
+      message.reply('Error getting your Dashcoin (DASH) deposit address.').then(message => message.delete(10000));
     } else {
     message.channel.send({ embed: {
-    description: '**:bank::card_index::moneybag:Feathercoin (FTC) Address!:moneybag::card_index::bank:**',
+    description: '**:bank::card_index::moneybag:Dashcoin (DASH) Address!:moneybag::card_index::bank:**',
     color: 1363892,
     fields: [
       {
@@ -117,24 +117,24 @@ function doWithdraw(message, tipper, words, helpmsg) {
     amount = getValidatedAmount(words[3]);
 
   if (amount === null) {
-    message.reply("I don't know how to withdraw that much Feathercoin (FTC)...").then(message => message.delete(10000));
+    message.reply("I don't know how to withdraw that much Dashcoin (DASH)...").then(message => message.delete(10000));
     return;
   }
 
-  ftc.getBalance(tipper, 1, function(err, balance) {
+  dash.getBalance(tipper, 1, function(err, balance) {
     if (err) {
-      message.reply('Error getting Feathercoin (FTC) balance.').then(message => message.delete(10000));
+      message.reply('Error getting Dashcoin (DASH) balance.').then(message => message.delete(10000));
     } else {
       if (Number(amount) + Number(paytxfee) > Number(balance)) {
-        message.channel.send('Please leave atleast ' + paytxfee + ' Feathercoin (FTC) for transaction fees!');
+        message.channel.send('Please leave atleast ' + paytxfee + ' Dashcoin (DASH) for transaction fees!');
         return;
       }
-      ftc.sendFrom(tipper, address, Number(amount), function(err, txId) {
+      dash.sendFrom(tipper, address, Number(amount), function(err, txId) {
         if (err) {
           message.reply(err.message).then(message => message.delete(10000));
         } else {
         message.channel.send({embed:{
-        description: '**:outbox_tray::money_with_wings::moneybag:Feathercoin (FTC) Transaction Completed!:moneybag::money_with_wings::outbox_tray:**',
+        description: '**:outbox_tray::money_with_wings::moneybag:Dashcoin (DASH) Transaction Completed!:moneybag::money_with_wings::outbox_tray:**',
         color: 1363892,
         fields: [
           {
@@ -185,16 +185,16 @@ function doTip(bot, message, tipper, words, helpmsg) {
   let amount = getValidatedAmount(words[amountOffset]);
 
   if (amount === null) {
-    message.reply("I don't know how to tip that much Feathercoin (FTC)...").then(message => message.delete(10000));
+    message.reply("I don't know how to tip that much Dashcoin (DASH)...").then(message => message.delete(10000));
     return;
   }
 
-  ftc.getBalance(tipper, 1, function(err, balance) {
+  dash.getBalance(tipper, 1, function(err, balance) {
     if (err) {
-      message.reply('Error getting Feathercoin (FTC) balance.').then(message => message.delete(10000));
+      message.reply('Error getting Dashcoin (DASH) balance.').then(message => message.delete(10000));
     } else {
       if (Number(amount) + Number(paytxfee) > Number(balance)) {
-        message.channel.send('Please leave atleast ' + paytxfee + ' Feathercoin (FTC) for transaction fees!');
+        message.channel.send('Please leave atleast ' + paytxfee + ' Dashcoin (DASH) for transaction fees!');
         return;
       }
 
@@ -205,7 +205,7 @@ function doTip(bot, message, tipper, words, helpmsg) {
             return;
           }
       if (message.mentions.users.first().id) {
-        sendFTC(bot, message, tipper, message.mentions.users.first().id.replace('!', ''), amount, prv);
+        sendDASH(bot, message, tipper, message.mentions.users.first().id.replace('!', ''), amount, prv);
       } else {
         message.reply('Sorry, I could not find a user in your tip...').then(message => message.delete(10000));
       }
@@ -213,19 +213,19 @@ function doTip(bot, message, tipper, words, helpmsg) {
   });
 }
 
-function sendFTC(bot, message, tipper, recipient, amount, privacyFlag) {
+function sendDASH(bot, message, tipper, recipient, amount, privacyFlag) {
   getAddress(recipient.toString(), function(err, address) {
     if (err) {
       message.reply(err.message).then(message => message.delete(10000));
     } else {
-          ftc.sendFrom(tipper, address, Number(amount), 1, null, null, function(err, txId) {
+          dash.sendFrom(tipper, address, Number(amount), 1, null, null, function(err, txId) {
               if (err) {
                 message.reply(err.message).then(message => message.delete(10000));
               } else {
                 if (privacyFlag) {
                   let userProfile = message.guild.members.find('id', recipient);
                   userProfile.user.send({ embed: {
-                  description: '**:money_with_wings::moneybag:Feathercoin (FTC) Transaction Completed!:moneybag::money_with_wings:**',
+                  description: '**:money_with_wings::moneybag:Dashcoin (DASH) Transaction Completed!:moneybag::money_with_wings:**',
                   color: 1363892,
                   fields: [
                     {
@@ -256,7 +256,7 @@ function sendFTC(bot, message, tipper, recipient, amount, privacyFlag) {
                   ]
                 } });
                 message.author.send({ embed: {
-                description: '**:money_with_wings::moneybag:Feathercoin (FTC) Transaction Completed!:moneybag::money_with_wings:**',
+                description: '**:money_with_wings::moneybag:Dashcoin (DASH) Transaction Completed!:moneybag::money_with_wings:**',
                 color: 1363892,
                 fields: [
                   {
@@ -288,13 +288,13 @@ function sendFTC(bot, message, tipper, recipient, amount, privacyFlag) {
                 ]
               } });
                   if (
-                    message.content.startsWith('!tipftc private ')
+                    message.content.startsWith('!tipdash private ')
                   ) {
                     message.delete(1000); //Supposed to delete message
                   }
                 } else {
                   message.channel.send({ embed: {
-                  description: '**:money_with_wings::moneybag:Feathercoin (FTC) Transaction Completed!:moneybag::money_with_wings:**',
+                  description: '**:money_with_wings::moneybag:Dashcoin (DASH) Transaction Completed!:moneybag::money_with_wings:**',
                   color: 1363892,
                   fields: [
                     {
@@ -332,13 +332,13 @@ function sendFTC(bot, message, tipper, recipient, amount, privacyFlag) {
 }
 
 function getAddress(userId, cb) {
-  ftc.getAddressesByAccount(userId, function(err, addresses) {
+  dash.getAddressesByAccount(userId, function(err, addresses) {
     if (err) {
       cb(err);
     } else if (addresses.length > 0) {
       cb(null, addresses[0]);
     } else {
-      ftc.getNewAddress(userId, function(err, address) {
+      dash.getNewAddress(userId, function(err, address) {
         if (err) {
           cb(err);
         } else {
@@ -371,9 +371,9 @@ function getValidatedAmount(amount) {
 }
 
 function txLink(txId) {
-  return 'https://explorer.feathercoin.com/tx/' + txId;
+  return 'https://explorer.dash.org/insight/tx/' + txId;
 }
 
 function addyLink(address) {
-  return 'https://explorer.feathercoin.com/address/' + address;
+  return 'https://explorer.dash.org/insight/address/' + address;
 }
