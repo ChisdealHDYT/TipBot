@@ -78,7 +78,7 @@ bot.on('ready', function() {
     );
   bot.user.setActivity(config.prefix + 'Intialized!');
   //var text = ['tipznz', 'tipbtc', 'tipfls', 'tippivx', 'tiphelp'];
-  var text = ['tipznz', 'tippivx', 'tipfls', 'tiprvn', 'tipdoge', 'tiplbc', 'tipufo', 'tipppc','tipphase', 'tippxc', 'tipftc', 'tipvtl', 'tipnebl', 'tipxuez', 'tipspk', 'tiphelp'];
+  var text = ['tipznz', 'tipdogec', 'tipfls', 'tiprvn', 'tipdoge', 'tiplbc', 'tipdash', 'tiphelp'];
   var counter = 0;
   setInterval(change, 10000);
 
