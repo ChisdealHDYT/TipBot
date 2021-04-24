@@ -19,13 +19,14 @@ let Regex = require('regex'),
   spamchannels = config.get('moderation').botspamchannels;
 let walletConfig = config.get('ltc').config;
 let paytxfee = config.get('ltc').paytxfee;
+let prefix = config.get('bot').prefix;
 const ltc = new bitcoin.Client(walletConfig);
 
 exports.commands = ['tipltc'];
 exports.tipltc = {
   usage: '<subcommand>',
   description:
-    '__**Litecoin (LTC) Tipper**__\nTransaction Fees: **' + paytxfee + '**\n    **!tipltc** : Displays This Message\n    **!tipltc balance** : get your balance\n    **!tipltc deposit** : get address for your deposits\n    **!tipltc withdraw <ADDRESS> <AMOUNT>** : withdraw coins to specified address\n    **!tipltc <@user> <amount>** :mention a user with @ and then the amount to tip them\n    **!tipltc private <user> <amount>** : put private before Mentioning a user to tip them privately.\n\n    has a default txfee of ' + paytxfee,
+    '__**Litecoin (LTC) Tipper**__\nTransaction Fees: **' + paytxfee + '**\n    **' + prefix + 'tipltc** : Displays This Message\n    **' + prefix + 'tipltc balance** : get your balance\n    **' + prefix + 'tipltc deposit** : get address for your deposits\n    **' + prefix + 'tipltc withdraw <ADDRESS> <AMOUNT>** : withdraw coins to specified address\n    **' + prefix + 'tipltc <@user> <amount>** :mention a user with @ and then the amount to tip them\n    **' + prefix + 'tipltc private <user> <amount>** : put private before Mentioning a user to tip them privately.\n\n    has a default txfee of ' + paytxfee,
   process: async function(bot, msg, suffix) {
     let tipper = msg.author.id.replace('!', ''),
       words = msg.content
@@ -36,7 +37,7 @@ exports.tipltc = {
         }),
       subcommand = words.length >= 2 ? words[1] : 'help',
       helpmsg =
-        '__**Litecoin (LTC) Tipper**__\nTransaction Fees: **' + paytxfee + '**\n    **!tipltc** : Displays This Message\n    **!tipltc balance** : get your balance\n    **!tipltc deposit** : get address for your deposits\n    **!tipltc withdraw <ADDRESS> <AMOUNT>** : withdraw coins to specified address\n    **!tipltc <@user> <amount>** :mention a user with @ and then the amount to tip them\n    **!tipltc private <user> <amount>** : put private before Mentioning a user to tip them privately.\n\n    **<> : Replace with appropriate value.**',
+        '__**Litecoin (LTC) Tipper**__\nTransaction Fees: **' + paytxfee + '**\n    **' + prefix + 'tipltc** : Displays This Message\n    **' + prefix + 'tipltc balance** : get your balance\n    **' + prefix + 'tipltc deposit** : get address for your deposits\n    **' + prefix + 'tipltc withdraw <ADDRESS> <AMOUNT>** : withdraw coins to specified address\n    **' + prefix + 'tipltc <@user> <amount>** :mention a user with @ and then the amount to tip them\n    **' + prefix + 'tipltc private <user> <amount>** : put private before Mentioning a user to tip them privately.\n\n    **<> : Replace with appropriate value.**',
       channelwarning = 'Please use <#bot-spam> or DMs to talk to bots.';
     switch (subcommand) {
       case 'help':
@@ -300,7 +301,7 @@ function sendLTC(bot, message, tipper, recipient, amount, privacyFlag) {
                 ]
               } });
                   if (
-                    message.content.startsWith('!tipltc private ')
+                    message.content.startsWith('' + prefix + 'tipltc private ')
                   ) {
                     message.delete(1000); //Supposed to delete message
                   }
