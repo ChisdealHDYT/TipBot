@@ -3,15 +3,7 @@ let config = require('config');
 let ravenFee = config.get('rvn').paytxfee;
 let dogeFee = config.get('doge').paytxfee;
 let lbryFee = config.get('lbc').paytxfee;
-let phaseFee = config.get('phase').paytxfee;
-let ufoFee = config.get('ufo').paytxfee;
-let phoenixFee = config.get('pxc').paytxfee;
-let featherFee = config.get('ftc').paytxfee;
-let verticalFee = config.get('vtl').paytxfee;
-let neblioFee = config.get('nebl').paytxfee;
-let xuezFee = config.get('xuez').paytxfee;
-let spkFee = config.get('spk').paytxfee;
-let ppcFee = config.get('ppc').paytxfee;
+let dashFee = config.get('dash').paytxfee;
 let zenzoFee = config.get('zenzo').paytxfee;
 let flsFee = config.get('fls').paytxfee;
 let pivxFee = config.get('pivx').paytxfee;
@@ -26,15 +18,7 @@ exports.tiphelp = {
       '  **Ravencoin (RVN) Tipper**\n    Transaction Fees: **' + ravenFee + '**\n' +
       '  **Dogecoin (DOGE) Tipper**\n    Transaction Fees: **' + dogeFee + '**\n' +
       '  **LBRY Credit (LBC) Tipper**\n    Transaction Fees: **' + lbryFee + '**\n' +
-      '  **Phase (PHASE) Tipper**\n    Transaction Fees: **' + phaseFee + '**\n' +
-      '  **Uniform Fiscal Object (UFO) Tipper**\n    Transaction Fees: **' + ufoFee + '**\n' +
-      '  **Phoenixcoin (PXC) Tipper**\n    Transaction Fees: **' + phoenixFee + '**\n' +
-      '  **Feathercoin (FTC) Tipper**\n    Transaction Fees: **' + featherFee + '**\n' +
-      '  **Vertical (VTL) Tipper**\n    Transaction Fees: **' + verticalFee + '**\n' +
-      '  **Neblio (NEBL) Tipper**\n    Transaction Fees: **' + neblioFee + '**\n' +
-      '  **Xuez (XUEZ) Tipper**\n    Transaction Fees: **' + xuezFee + '**\n' +
-      '  **SparksPay (SPK) Tipper**\n    Transaction Fees: **' + spkFee + '**\n' +      
-      '  **Peercoin (PPC) Tipper**\n    Transaction Fees: **' + ppcFee + '**\n' +
+      '  **Dashcoin (DASH) Tipper**\n    Transaction Fees: **' + dashFee + '**\n' +
       '  **Zenzo (ZNZ) Tipper**\n    Transaction Fees: **' + zenzoFee + '**\n' + 
       '  **Flits (FLS) Tipper**\n    Transaction Fees: **' + flsFee + '**\n' + 
       '  **Pivx (PIVX) Tipper**\n    Transaction Fees: **' + pivxFee + '**\n' + 
@@ -47,11 +31,11 @@ exports.tiphelp = {
       '  **' + prefix + 'tip<CoinSymbol> private <user> <amount>** : put private before Mentioning a user to tip them privately\n' +
       '**<> : Replace carrot <> symbole with appropriate value.**\n' +
       '__**Examples**__\n' +
-      '  **' + prefix + 'tiprvn @MSFTserver 10**\n' +
-      '  **' + prefix + 'tipdoge withdraw DOGEaddressHERE 10**\n' +
-      '  **' + prefix + 'tipftc private @MSFTserver 10**\n' +
-      '  **' + prefix + 'tiplbc balance**\n' +
-      '  **' + prefix + 'tippxc deposit**\n'
+      '  **' + prefix + 'tipdash @MSFTserver 10**\n' +
+      '  **' + prefix + 'tipdash withdraw DOGEaddressHERE 10**\n' +
+      '  **' + prefix + 'tipdash private @MSFTserver 10**\n' +
+      '  **' + prefix + 'tipdash balance**\n' +
+      '  **' + prefix + 'tipdash deposit**\n'
     );
   }
 };
