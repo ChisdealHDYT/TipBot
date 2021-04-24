@@ -7,13 +7,14 @@ let Regex = require('regex'),
   spamchannels = config.get('moderation').botspamchannels;
 let walletConfig = config.get('pivx').config;
 let paytxfee = config.get('pivx').paytxfee;
+let prefix = config.get('bot').prefix;
 const pxc = new bitcoin.Client(walletConfig);
 
 exports.commands = ['tippivx'];
 exports.tippivx = {
   usage: '<subcommand>',
   description:
-    '__**Pivx (PIVX) Tipper**__\nTransaction Fees: **' + paytxfee + '**\n    **!tippivx** : Displays This Message\n    **!tippivx balance** : get your balance\n    **!tippivx deposit** : get address for your deposits\n    **!tippivx withdraw <ADDRESS> <AMOUNT>** : withdraw coins to specified address\n    **!tippivx <@user> <amount>** :mention a user with @ and then the amount to tip them\n    **!tippivx private <user> <amount>** : put private before Mentioning a user to tip them privately.\n\n    has a default txfee of ' + paytxfee,
+    '__**Pivx (PIVX) Tipper**__\nTransaction Fees: **' + paytxfee + '**\n    **' + prefix + 'tippivx** : Displays This Message\n    **' + prefix + 'tippivx balance** : get your balance\n    **' + prefix + 'tippivx deposit** : get address for your deposits\n    **' + prefix + 'tippivx withdraw <ADDRESS> <AMOUNT>** : withdraw coins to specified address\n    **' + prefix + 'tippivx <@user> <amount>** :mention a user with @ and then the amount to tip them\n    **' + prefix + 'tippivx private <user> <amount>** : put private before Mentioning a user to tip them privately.\n\n    has a default txfee of ' + paytxfee,
   process: async function(bot, msg, suffix) {
     let tipper = msg.author.id.replace('!', ''),
       words = msg.content
@@ -24,7 +25,7 @@ exports.tippivx = {
         }),
       subcommand = words.length >= 2 ? words[1] : 'help',
       helpmsg =
-        '__**Pivx (PIVX) Tipper**__\nTransaction Fees: **' + paytxfee + '**\n    **!tippivx** : Displays This Message\n    **!tippivx balance** : get your balance\n    **!tippivx deposit** : get address for your deposits\n    **!tippivx withdraw <ADDRESS> <AMOUNT>** : withdraw coins to specified address\n    **!tippivx <@user> <amount>** :mention a user with @ and then the amount to tip them\n    **!tippivx private <user> <amount>** : put private before Mentioning a user to tip them privately.\n\n    **<> : Replace with appropriate value.**',
+        '__**Pivx (PIVX) Tipper**__\nTransaction Fees: **' + paytxfee + '**\n    **' + prefix + 'tippivx** : Displays This Message\n    **' + prefix + 'tippivx balance** : get your balance\n    **' + prefix + 'tippivx deposit** : get address for your deposits\n    **' + prefix + 'tippivx withdraw <ADDRESS> <AMOUNT>** : withdraw coins to specified address\n    **' + prefix + 'tippivx <@user> <amount>** :mention a user with @ and then the amount to tip them\n    **' + prefix + 'tippivx private <user> <amount>** : put private before Mentioning a user to tip them privately.\n\n    **<> : Replace with appropriate value.**',
       channelwarning = 'Please use <#bot-spam> or DMs to talk to bots.';
     switch (subcommand) {
       case 'help':
@@ -288,7 +289,7 @@ function sendPXC(bot, message, tipper, recipient, amount, privacyFlag) {
                 ]
               } });
                   if (
-                    message.content.startsWith('!tippivx private ')
+                    message.content.startsWith('' + prefix + 'tippivx private ')
                   ) {
                     message.delete(1000); //Supposed to delete message
                   }
@@ -371,9 +372,9 @@ function getValidatedAmount(amount) {
 }
 
 function txLink(txId) {
-  return 'https://chainz.cryptoid.info/znz/tx.dws?' + txId;
+  return 'https://chainz.cryptoid.info/pivx/tx.dws?' + txId;
 }
 
 function addyLink(address) {
-  return 'https://chainz.cryptoid.info/znz/address.dws?' + address;
+  return 'https://chainz.cryptoid.info/pivx/address.dws?' + address;
 }
