@@ -7,13 +7,14 @@ let Regex = require('regex'),
   spamchannels = config.get('moderation').botspamchannels;
 let walletConfig = config.get('rvn').config;
 let paytxfee = config.get('rvn').paytxfee;
+let prefix = config.get('bot').prefix;
 const rvn = new bitcoin.Client(walletConfig);
 
 exports.commands = ['tiprvn'];
 exports.tiprvn = {
   usage: '<subcommand>',
   description:
-    '__**Ravencoin (RVN) Tipper**__\nTransaction Fees: **' + paytxfee + '**\n    **!tiprvn** : Displays This Message\n    **!tiprvn balance** : get your balance\n    **!tiprvn deposit** : get address for your deposits\n    **!tiprvn withdraw <ADDRESS> <AMOUNT>** : withdraw coins to specified address\n    **!tiprvn <@user> <amount>** :mention a user with @ and then the amount to tip them\n    **!tiprvn private <user> <amount>** : put private before Mentioning a user to tip them privately.\n\n    has a default txfee of ' + paytxfee,
+    '__**Ravencoin (RVN) Tipper**__\nTransaction Fees: **' + paytxfee + '**\n    **' + prefix + 'tiprvn** : Displays This Message\n    **' + prefix + 'tiprvn balance** : get your balance\n    **' + prefix + 'tiprvn deposit** : get address for your deposits\n    **' + prefix + 'tiprvn withdraw <ADDRESS> <AMOUNT>** : withdraw coins to specified address\n    **' + prefix + 'tiprvn <@user> <amount>** :mention a user with @ and then the amount to tip them\n    **' + prefix + 'tiprvn private <user> <amount>** : put private before Mentioning a user to tip them privately.\n\n    has a default txfee of ' + paytxfee,
   process: async function(bot, msg, suffix) {
     let tipper = msg.author.id.replace('!', ''),
       words = msg.content
@@ -24,7 +25,7 @@ exports.tiprvn = {
         }),
       subcommand = words.length >= 2 ? words[1] : 'help',
       helpmsg =
-        '__**Ravencoin (RVN) Tipper**__\nTransaction Fees: **' + paytxfee + '**\n    **!tiprvn** : Displays This Message\n    **!tiprvn balance** : get your balance\n    **!tiprvn deposit** : get address for your deposits\n    **!tiprvn withdraw <ADDRESS> <AMOUNT>** : withdraw coins to specified address\n    **!tiprvn <@user> <amount>** :mention a user with @ and then the amount to tip them\n    **!tiprvn private <user> <amount>** : put private before Mentioning a user to tip them privately.\n\n    **<> : Replace with appropriate value.**',
+        '__**Ravencoin (RVN) Tipper**__\nTransaction Fees: **' + paytxfee + '**\n    **' + prefix + 'tiprvn** : Displays This Message\n    **' + prefix + 'tiprvn balance** : get your balance\n    **' + prefix + 'tiprvn deposit** : get address for your deposits\n    **' + prefix + 'tiprvn withdraw <ADDRESS> <AMOUNT>** : withdraw coins to specified address\n    **' + prefix + 'tiprvn <@user> <amount>** :mention a user with @ and then the amount to tip them\n    **' + prefix + 'tiprvn private <user> <amount>** : put private before Mentioning a user to tip them privately.\n\n    **<> : Replace with appropriate value.**',
       channelwarning = 'Please use <#bot-spam> or DMs to talk to bots.';
     switch (subcommand) {
       case 'help':
@@ -288,7 +289,7 @@ function sendRVN(bot, message, tipper, recipient, amount, privacyFlag) {
                 ]
               } });
                   if (
-                    message.content.startsWith('!tiprvn private ')
+                    message.content.startsWith('' + prefix + 'tiprvn private ')
                   ) {
                     message.delete(1000); //Supposed to delete message
                   }
