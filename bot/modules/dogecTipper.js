@@ -5,16 +5,16 @@ const bitcoin = require('bitcoin');
 let Regex = require('regex'),
   config = require('config'),
   spamchannels = config.get('moderation').botspamchannels;
-let walletConfig = config.get('pivx').config;
-let paytxfee = config.get('pivx').paytxfee;
+let walletConfig = config.get('dogec').config;
+let paytxfee = config.get('dogec').paytxfee;
 let prefix = config.get('bot').prefix;
 const pxc = new bitcoin.Client(walletConfig);
 
-exports.commands = ['tippivx'];
-exports.tippivx = {
+exports.commands = ['tipdogec'];
+exports.tipdogec = {
   usage: '<subcommand>',
   description:
-    '__**Pivx (PIVX) Tipper**__\nTransaction Fees: **' + paytxfee + '**\n    **' + prefix + 'tippivx** : Displays This Message\n    **' + prefix + 'tippivx balance** : get your balance\n    **' + prefix + 'tippivx deposit** : get address for your deposits\n    **' + prefix + 'tippivx withdraw <ADDRESS> <AMOUNT>** : withdraw coins to specified address\n    **' + prefix + 'tippivx <@user> <amount>** :mention a user with @ and then the amount to tip them\n    **' + prefix + 'tippivx private <user> <amount>** : put private before Mentioning a user to tip them privately.\n\n    has a default txfee of ' + paytxfee,
+    '__**Dogecash (DOGEC) Tipper**__\nTransaction Fees: **' + paytxfee + '**\n    **' + prefix + 'tipdogec** : Displays This Message\n    **' + prefix + 'tipdogec balance** : get your balance\n    **' + prefix + 'tipdogec deposit** : get address for your deposits\n    **' + prefix + 'tipdogec withdraw <ADDRESS> <AMOUNT>** : withdraw coins to specified address\n    **' + prefix + 'tipdogec <@user> <amount>** :mention a user with @ and then the amount to tip them\n    **' + prefix + 'tipdogec private <user> <amount>** : put private before Mentioning a user to tip them privately.\n\n    has a default txfee of ' + paytxfee,
   process: async function(bot, msg, suffix) {
     let tipper = msg.author.id.replace('!', ''),
       words = msg.content
@@ -25,7 +25,7 @@ exports.tippivx = {
         }),
       subcommand = words.length >= 2 ? words[1] : 'help',
       helpmsg =
-        '__**Pivx (PIVX) Tipper**__\nTransaction Fees: **' + paytxfee + '**\n    **' + prefix + 'tippivx** : Displays This Message\n    **' + prefix + 'tippivx balance** : get your balance\n    **' + prefix + 'tippivx deposit** : get address for your deposits\n    **' + prefix + 'tippivx withdraw <ADDRESS> <AMOUNT>** : withdraw coins to specified address\n    **' + prefix + 'tippivx <@user> <amount>** :mention a user with @ and then the amount to tip them\n    **' + prefix + 'tippivx private <user> <amount>** : put private before Mentioning a user to tip them privately.\n\n    **<> : Replace with appropriate value.**',
+        '__**Dogecash (DOGEC) Tipper**__\nTransaction Fees: **' + paytxfee + '**\n    **' + prefix + 'tipdogec** : Displays This Message\n    **' + prefix + 'tipdogec balance** : get your balance\n    **' + prefix + 'tipdogec deposit** : get address for your deposits\n    **' + prefix + 'tipdogec withdraw <ADDRESS> <AMOUNT>** : withdraw coins to specified address\n    **' + prefix + 'tipdogec <@user> <amount>** :mention a user with @ and then the amount to tip them\n    **' + prefix + 'tipdogec private <user> <amount>** : put private before Mentioning a user to tip them privately.\n\n    **<> : Replace with appropriate value.**',
       channelwarning = 'Please use <#bot-spam> or DMs to talk to bots.';
     switch (subcommand) {
       case 'help':
@@ -61,10 +61,10 @@ function doHelp(message, helpmsg) {
 function doBalance(message, tipper) {
   pxc.getBalance(tipper, 1, function(err, balance) {
     if (err) {
-      message.reply('Error getting Pivx (PIVX) balance.').then(message => message.delete(10000));
+      message.reply('Error getting Dogecash (DOGEC) balance.').then(message => message.delete(10000));
     } else {
     message.channel.send({ embed: {
-    description: '**:bank::money_with_wings::moneybag:Pivx (PIVX) Balance!:moneybag::money_with_wings::bank:**',
+    description: '**:bank::money_with_wings::moneybag:Dogecash (DOGEC) Balance!:moneybag::money_with_wings::bank:**',
     color: 1363892,
     fields: [
       {
@@ -86,10 +86,10 @@ function doBalance(message, tipper) {
 function doDeposit(message, tipper) {
   getAddress(tipper, function(err, address) {
     if (err) {
-      message.reply('Error getting your Pivx (PIVX) deposit address.').then(message => message.delete(10000));
+      message.reply('Error getting your Dogecash (DOGEC) deposit address.').then(message => message.delete(10000));
     } else {
     message.channel.send({ embed: {
-    description: '**:bank::card_index::moneybag:Pivx (PIVX) Address!:moneybag::card_index::bank:**',
+    description: '**:bank::card_index::moneybag:Dogecash (DOGEC) Address!:moneybag::card_index::bank:**',
     color: 1363892,
     fields: [
       {
@@ -118,16 +118,16 @@ function doWithdraw(message, tipper, words, helpmsg) {
     amount = getValidatedAmount(words[3]);
 
   if (amount === null) {
-    message.reply("I don't know how to withdraw that much Pivx (PIVX)...").then(message => message.delete(10000));
+    message.reply("I don't know how to withdraw that much Dogecash (DOGEC)...").then(message => message.delete(10000));
     return;
   }
 
   pxc.getBalance(tipper, 1, function(err, balance) {
     if (err) {
-      message.reply('Error getting Pivx (PIVX) balance.').then(message => message.delete(10000));
+      message.reply('Error getting Dogecash (DOGEC) balance.').then(message => message.delete(10000));
     } else {
       if (Number(amount) + Number(paytxfee) > Number(balance)) {
-        message.channel.send('Please leave atleast ' + paytxfee + ' Pivx (PIVX) for transaction fees!');
+        message.channel.send('Please leave atleast ' + paytxfee + ' Dogecash (DOGEC) for transaction fees!');
         return;
       }
       pxc.sendFrom(tipper, address, Number(amount), function(err, txId) {
@@ -135,7 +135,7 @@ function doWithdraw(message, tipper, words, helpmsg) {
           message.reply(err.message).then(message => message.delete(10000));
         } else {
         message.channel.send({embed:{
-        description: '**:outbox_tray::money_with_wings::moneybag:Pivx (PIVX) Transaction Completed!:moneybag::money_with_wings::outbox_tray:**',
+        description: '**:outbox_tray::money_with_wings::moneybag:Dogecash (DOGEC) Transaction Completed!:moneybag::money_with_wings::outbox_tray:**',
         color: 1363892,
         fields: [
           {
@@ -186,16 +186,16 @@ function doTip(bot, message, tipper, words, helpmsg) {
   let amount = getValidatedAmount(words[amountOffset]);
 
   if (amount === null) {
-    message.reply("I don't know how to tip that much Pivx (PIVX)...").then(message => message.delete(10000));
+    message.reply("I don't know how to tip that much Dogecash (DOGEC)...").then(message => message.delete(10000));
     return;
   }
 
   pxc.getBalance(tipper, 1, function(err, balance) {
     if (err) {
-      message.reply('Error getting Pivx (PIVX) balance.').then(message => message.delete(10000));
+      message.reply('Error getting Dogecash (DOGEC) balance.').then(message => message.delete(10000));
     } else {
       if (Number(amount) + Number(paytxfee) > Number(balance)) {
-        message.channel.send('Please leave atleast ' + paytxfee + ' Pivx (PIVX) for transaction fees!');
+        message.channel.send('Please leave atleast ' + paytxfee + ' Dogecash (DOGEC) for transaction fees!');
         return;
       }
 
@@ -226,7 +226,7 @@ function sendPXC(bot, message, tipper, recipient, amount, privacyFlag) {
                 if (privacyFlag) {
                   let userProfile = message.guild.members.find('id', recipient);
                   userProfile.user.send({ embed: {
-                  description: '**:money_with_wings::moneybag:Pivx (PIVX) Transaction Completed!:moneybag::money_with_wings:**',
+                  description: '**:money_with_wings::moneybag:Dogecash (DOGEC) Transaction Completed!:moneybag::money_with_wings:**',
                   color: 1363892,
                   fields: [
                     {
@@ -257,7 +257,7 @@ function sendPXC(bot, message, tipper, recipient, amount, privacyFlag) {
                   ]
                 } });
                 message.author.send({ embed: {
-                description: '**:money_with_wings::moneybag:Pivx (PIVX) Transaction Completed!:moneybag::money_with_wings:**',
+                description: '**:money_with_wings::moneybag:Dogecash (DOGEC) Transaction Completed!:moneybag::money_with_wings:**',
                 color: 1363892,
                 fields: [
                   {
@@ -289,13 +289,13 @@ function sendPXC(bot, message, tipper, recipient, amount, privacyFlag) {
                 ]
               } });
                   if (
-                    message.content.startsWith('' + prefix + 'tippivx private ')
+                    message.content.startsWith('' + prefix + 'tipdogec private ')
                   ) {
                     message.delete(1000); //Supposed to delete message
                   }
                 } else {
                   message.channel.send({ embed: {
-                  description: '**:money_with_wings::moneybag:Pivx (PIVX) Transaction Completed!:moneybag::money_with_wings:**',
+                  description: '**:money_with_wings::moneybag:Dogecash (DOGEC) Transaction Completed!:moneybag::money_with_wings:**',
                   color: 1363892,
                   fields: [
                     {
@@ -372,9 +372,9 @@ function getValidatedAmount(amount) {
 }
 
 function txLink(txId) {
-  return 'https://chainz.cryptoid.info/pivx/tx.dws?' + txId;
+  return 'https://explorer.dogec.io/tx/' + txId;
 }
 
 function addyLink(address) {
-  return 'https://chainz.cryptoid.info/pivx/address.dws?' + address;
+  return 'https://explorer.dogec.io/address/' + address;
 }
