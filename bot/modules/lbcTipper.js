@@ -7,13 +7,14 @@ let Regex = require('regex'),
   spamchannels = config.get('moderation').botspamchannels;
 let walletConfig = config.get('lbc').config;
 let paytxfee = config.get('lbc').paytxfee;
+let prefix = config.get('bot').prefix;
 const lbc = new bitcoin.Client(walletConfig);
 
 exports.commands = ['tiplbc'];
 exports.tiplbc = {
   usage: '<subcommand>',
   description:
-    '__**LBRY Credit (LBC) Tipper**__\nTransaction Fees: **' + paytxfee + '**\n    **!tiplbc** : Displays This Message\n    **!tiplbc balance** : get your balance\n    **!tiplbc deposit** : get address for your deposits\n    **!tiplbc withdraw <ADDRESS> <AMOUNT>** : withdraw coins to specified address\n    **!tiplbc <@user> <amount>** :mention a user with @ and then the amount to tip them\n    **!tiplbc private <user> <amount>** : put private before Mentioning a user to tip them privately.\n\n    has a default txfee of ' + paytxfee,
+    '__**LBRY Credit (LBC) Tipper**__\nTransaction Fees: **' + paytxfee + '**\n    **' + prefix + 'tiplbc** : Displays This Message\n    **' + prefix + 'tiplbc balance** : get your balance\n    **' + prefix + 'tiplbc deposit** : get address for your deposits\n    **' + prefix + 'tiplbc withdraw <ADDRESS> <AMOUNT>** : withdraw coins to specified address\n    **' + prefix + 'tiplbc <@user> <amount>** :mention a user with @ and then the amount to tip them\n    **' + prefix + 'tiplbc private <user> <amount>** : put private before Mentioning a user to tip them privately.\n\n    has a default txfee of ' + paytxfee,
   process: async function(bot, msg, suffix) {
     let tipper = msg.author.id.replace('!', ''),
       words = msg.content
@@ -24,7 +25,7 @@ exports.tiplbc = {
         }),
       subcommand = words.length >= 2 ? words[1] : 'help',
       helpmsg =
-        '__**LBRY Credit (LBC) Tipper**__\nTransaction Fees: **' + paytxfee + '**\n    **!tiplbc** : Displays This Message\n    **!tiplbc balance** : get your balance\n    **!tiplbc deposit** : get address for your deposits\n    **!tiplbc withdraw <ADDRESS> <AMOUNT>** : withdraw coins to specified address\n    **!tiplbc <@user> <amount>** :mention a user with @ and then the amount to tip them\n    **!tiplbc private <user> <amount>** : put private before Mentioning a user to tip them privately.\n\n    **<> : Replace with appropriate value.**',
+        '__**LBRY Credit (LBC) Tipper**__\nTransaction Fees: **' + paytxfee + '**\n    **' + prefix + 'tiplbc** : Displays This Message\n    **' + prefix + 'tiplbc balance** : get your balance\n    **' + prefix + 'tiplbc deposit** : get address for your deposits\n    **' + prefix + 'tiplbc withdraw <ADDRESS> <AMOUNT>** : withdraw coins to specified address\n    **' + prefix + 'tiplbc <@user> <amount>** :mention a user with @ and then the amount to tip them\n    **' + prefix + 'tiplbc private <user> <amount>** : put private before Mentioning a user to tip them privately.\n\n    **<> : Replace with appropriate value.**',
       channelwarning = 'Please use <#bot-spam> or DMs to talk to bots.';
     switch (subcommand) {
       case 'help':
@@ -288,7 +289,7 @@ function sendLBC(bot, message, tipper, recipient, amount, privacyFlag) {
                 ]
               } });
                   if (
-                    message.content.startsWith('!tiplbc private ')
+                    message.content.startsWith('' + prefix + 'tiplbc private ')
                   ) {
                     message.delete(1000); //Supposed to delete message
                   }
